@@ -1,17 +1,15 @@
 ﻿using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 // МБ СТОИТ ТАКИ ПИСАТЬ НА КОРЕ
 
 // 6712069977:AAFibGJDBA4ihpSJKFNny0kZwpEx2jN0p_k
 
 Console.WriteLine("DORM BOT");
-Console.ReadLine();
 
 var botClient = new TelegramBotClient("6712069977:AAFibGJDBA4ihpSJKFNny0kZwpEx2jN0p_k");
-var botIdentifier = await botClient.GetMeAsync();
-
-Console.WriteLine($"Hey there! I'm user {botIdentifier.Id} and everybody calls me {botIdentifier.FirstName}!))");
 
 using CancellationTokenSource cts = new();
 
@@ -22,11 +20,22 @@ ReceiverOptions receiverOptions = new()
 };
 
 botClient.StartReceiving(
-    updateHandler: HandleUpdateAsync,
-    pollingErrorHandler: HandlePollingErrorAsync,
+    updateHandler: UpdatesAsync,
+    pollingErrorHandler: PollingErrorAsync,
     receiverOptions: receiverOptions,
     cancellationToken: cts.Token
 );
+var botMe = await botClient.GetMeAsync();
 
+Console.WriteLine($"Hey there! I'm user {botMe.Id} and everybody calls me {botMe.FirstName}!))");
+var clientMessage = Console.ReadLine();
 
+async Task UpdatesAsync(ITelegramBotClient arg1, Update message, CancellationToken arg3)
+{
+    throw new NotImplementedException();
+}
 
+async Task PollingErrorAsync(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)
+{
+    throw new NotImplementedException();
+}
